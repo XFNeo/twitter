@@ -1,6 +1,7 @@
 package ru.xfneo.twitter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,6 +23,9 @@ public class UserService implements UserDetailsService {
     private MailService mailService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Value("${hostname}")
+    private String hostname;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
@@ -50,8 +54,9 @@ public class UserService implements UserDetailsService {
         if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format(
               "Hello, %s\n" +
-                      "Welcome to Twitter. Please, visit the next link: http://localhost:8080/activate/%s",
+                      "Welcome to Twitter. Please, visit the next link: http://%s/activate/%s",
                     user.getUsername(),
+                    hostname,
                     user.getActivationCode()
             );
             mailService.send(user.getEmail(), "Activation code", message);
