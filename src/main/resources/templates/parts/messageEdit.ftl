@@ -1,5 +1,6 @@
+<#assign isMainPage = springMacroRequestContext.requestUri?contains("/main")>
 <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-    Message editor
+    <#if isMainPage>Add a new message<#else>Message editor</#if>
 </a>
 <div class="collapse <#if message??>show</#if>" id="collapseExample">
     <div class="form-group mt-3">
@@ -29,9 +30,9 @@
                 </div>
             </div>
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-            <input type="hidden" name="id" value="<#if message??>${message.id}</#if>"/>
+            <input type="hidden" name="id" value="<#if message?? && message.id??>${message.id}</#if>"/>
             <div class="form-group">
-                <button class="btn btn-primary" type="submit">Save message</button>
+                <button class="btn btn-primary" type="submit"><#if isMainPage>Add message<#else>Save message</#if></button>
             </div>
         </form>
     </div>
