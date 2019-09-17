@@ -4,6 +4,7 @@
     <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V1__Init_DB.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V2__Add_Admin.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V3__Add_subscriptions_table.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/V4__Add_message_likes.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/test/resources/create-user-before.sql" dialect="MySQL" />
   </component>
 </project>

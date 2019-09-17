@@ -1,9 +1,12 @@
 package ru.xfneo.twitter.domain;
 
 import org.hibernate.validator.constraints.Length;
+import ru.xfneo.twitter.domain.util.MessageHelper;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Message {
@@ -17,6 +20,14 @@ public class Message {
     private String text;
     @Length(max = 255, message = "Tag is too long (more than 255b)")
     private String tag;
+
+    @ManyToMany
+    @JoinTable(
+            name = "message_likes",
+            joinColumns = {@JoinColumn(name = "message_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
+    )
+    private Set<User> likes = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -65,7 +76,7 @@ public class Message {
     }
 
     public String getAuthorName(){
-        return author != null ? author.getUsername() : "No author";
+        return MessageHelper.getAuthorName(author);
     }
 
     public String getFilename() {
@@ -74,5 +85,13 @@ public class Message {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public Set<User> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<User> likes) {
+        this.likes = likes;
     }
 }
